@@ -25,6 +25,14 @@ class Test_FS_A_Really_Simple_Wrapper(unittest.TestCase):
         
         self.assertTrue(exists(test_path))
         
+    def test_mkdirp_creates_dirs_with_complex_paths(self):
+        
+        test_path = join(self.test_root, "one/two/three/four")
+        
+        fs("mkdir -p", self.test_root, "one", ("two", "three"), "four")
+        
+        self.assertTrue(exists(test_path))
+        
     def test_mkdirp_doesnt_fail_if_dirs_already_exist(self):        
         test_path = join(self.test_root, "a/b/c/d/e/f/g")
         
