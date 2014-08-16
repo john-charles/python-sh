@@ -21,6 +21,8 @@ def super_join(inputs):
 
 def make_dir_p(path):
     
+    path = super_join(path)
+    
     whole = "/"    
     for part in path.split('/'):
         
@@ -38,7 +40,7 @@ def fs(cmd, *paths):
     if cmd == "join":
         return super_join(paths)
     if cmd == "mkdir -p":
-        make_dir_p(paths[0])
+        make_dir_p(paths)
     
     
     
