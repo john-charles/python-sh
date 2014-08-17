@@ -7,7 +7,7 @@ class FSException(Exception):
     pass
 
 def join(*inputs):
-    
+    #print "inputs: ", inputs
     parts = []
     
     for part in inputs:
@@ -17,6 +17,7 @@ def join(*inputs):
         if isinstance(part, basestring):
             parts.append(part)
     
+    #print inputs
     return py_join(*parts)
     
 
@@ -40,6 +41,9 @@ def make_dir_p(path):
 def fs(cmd, *paths):
     if cmd == "join":
         return join(*paths)
+    
+    if cmd == "exists":
+        return exists(join(*paths))
 
     if cmd == "mkdir -p":
         make_dir_p(paths)

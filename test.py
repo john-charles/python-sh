@@ -47,6 +47,13 @@ class Test_FS_A_Really_Simple_Wrapper(unittest.TestCase):
         open(join(self.test_root, "a1"), "wb").close()
         self.assertRaises(FSException, lambda: fs("mkdir -p", test_path))
         
+    def test_exists(self):
+        test_path = fs("join", self.test_root, "n1/n2/n3/n4/n5/n6")
+        
+        fs("mkdir -p", test_path)        
+        self.assertTrue(fs("exists", test_path))
+        
+        
     
         
         
