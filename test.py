@@ -45,8 +45,9 @@ class Test_FS_A_Really_Simple_Wrapper(unittest.TestCase):
         test_path = join(self.test_root, "a1/b2/c3/d4")
         
         open(join(self.test_root, "a1"), "wb").close()
-        
         self.assertRaises(FSException, lambda: fs("mkdir -p", test_path))
+        
+    
         
         
 if __name__ == '__main__':

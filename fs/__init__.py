@@ -1,27 +1,28 @@
-__all__ = ['fs', 'FSException']
+__all__ = ['fs', 'join', 'FSException']
 
 import os
-
-from os.path import join, exists, isdir
+from os.path import join as py_join, exists, isdir
 
 class FSException(Exception):
     pass
 
-def super_join(inputs):
+def join(*inputs):
+    
     parts = []
     
     for part in inputs:
+        
         if isinstance(part, (list, tuple)):
             parts.extend(part)
         if isinstance(part, basestring):
             parts.append(part)
     
-    return join(*parts)
+    return py_join(*parts)
     
 
 def make_dir_p(path):
     
-    path = super_join(path)
+    path = join(*path)
     
     whole = "/"    
     for part in path.split('/'):
@@ -34,11 +35,12 @@ def make_dir_p(path):
             raise FSException("File exists at %s" % whole) 
         
         
-        
+
 
 def fs(cmd, *paths):
     if cmd == "join":
-        return super_join(paths)
+        return join(*paths)
+
     if cmd == "mkdir -p":
         make_dir_p(paths)
     
