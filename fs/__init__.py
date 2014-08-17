@@ -1,7 +1,7 @@
-__all__ = ['fs', 'join', 'FSException']
+__all__ = ['fs', 'join', 'save', 'load', 'exists', 'FSException']
 
 import os
-from os.path import join as py_join, exists, isdir
+from os.path import join as py_join, exists as py_exists, isdir as py_isdir
 
 class FSException(Exception):
     pass
@@ -30,12 +30,36 @@ def make_dir_p(path):
         
         whole = join(whole, part)
         
-        if not exists(whole):
+        if not py_exists(whole):
             os.mkdir(whole)
-        if not isdir(whole):
+        if not py_isdir(whole):
             raise FSException("File exists at %s" % whole) 
         
         
+def save(*args, **kw):
+    
+    content = args[-1]
+    path = join(*args[:-1])
+    mode = kw.get('mode', 'wb')
+    
+    f = open(path, mode)
+    f.write(content)
+    f.close()
+    
+def load(*path, **kw):    
+    path = join(*path)
+    mode = kw.get('mode','rb')
+    
+    f = open(path, mode)
+    content = f.read()
+    f.close()
+    
+    return content
+    
+    
+
+def exists(*args):
+    return py_exists(join(*args))
 
 
 def fs(cmd, *paths):
@@ -43,7 +67,7 @@ def fs(cmd, *paths):
         return join(*paths)
     
     if cmd == "exists":
-        return exists(join(*paths))
+        return exists(*paths)
 
     if cmd == "mkdir -p":
         make_dir_p(paths)

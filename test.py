@@ -5,7 +5,7 @@ import unittest, tempfile
 import os
 from os.path import join, exists
 
-from fs import fs, FSException
+from fs import fs, save, load, exists as fs_exists, FSException
 
 class Test_FS_A_Really_Simple_Wrapper(unittest.TestCase):
     
@@ -52,6 +52,25 @@ class Test_FS_A_Really_Simple_Wrapper(unittest.TestCase):
         
         fs("mkdir -p", test_path)        
         self.assertTrue(fs("exists", test_path))
+        
+    def test_it_can_save_a_string_to_a_file(self):        
+        test_string = "This is a test"
+        
+        save(self.test_root, "test_file.txt", test_string)        
+        self.assertTrue(fs_exists(self.test_root, "test_file.txt"))
+        
+    def test_it_can_read_from_a_file_to_a_string(self):
+        test_content = "This is some test content!"
+        test_path = fs('join', self.test_root, 'a_file.txt')
+        
+        f = open(test_path, 'wb')
+        f.write(test_content)
+        f.close()
+        
+        self.assertEqual(load(test_path), test_content)
+        
+        
+        
         
         
     
