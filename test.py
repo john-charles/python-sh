@@ -3,7 +3,7 @@
 import unittest, tempfile
 
 import os
-from os.path import join, exists
+from os.path import join, exists, expanduser
 
 from fs import fs, save, load, exists as fs_exists, FSException
 
@@ -31,6 +31,11 @@ class Test_FS_A_Really_Simple_Wrapper(unittest.TestCase):
         
         path = fs('join', '/home', ('a', 'b'));
         self.assertEqual(path, '/home/a/b')
+
+    def test_it_can_join_on_tild(self):
+        
+        path = fs('join', '~', 'Desktop')
+        self.assertEqual(path, expanduser('~') + '/Desktop')
         
 #   def test_it_joins_complex_paths(self):
 #       
