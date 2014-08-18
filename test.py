@@ -16,6 +16,12 @@ class Test_FS_A_Really_Simple_Wrapper(unittest.TestCase):
         
         path = fs("join", "/home/user", ('dir_one', 'dir_two'), "file.txt")        
         self.assertEqual(path, "/home/user/dir_one/dir_two/file.txt")
+        
+    def test_it_joins_paths_starting_in_tild(self):
+        
+        path = fs("join", "~/Desktop")
+        
+        self.assertEqual(path, os.path.expanduser('~/Desktop'))
     
     def test_mkdirp_creates_directories(self):
         

@@ -1,24 +1,52 @@
 __all__ = ['fs', 'join', 'save', 'load', 'exists', 'FSException']
 
 import os
-from os.path import join as py_join, exists as py_exists, isdir as py_isdir
+from os.path import (
+    join as py_join,
+    isdir as py_isdir,
+    exists as py_exists,
+    expanduser as py_expanduser
+)
+    
 
 class FSException(Exception):
     pass
 
 def join(*inputs):
-    #print "inputs: ", inputs
-    parts = []
+    # super procedural, because this utility should
+    # be available to people doing low level work.
+    path = ""
     
     for part in inputs:
-        
-        if isinstance(part, (list, tuple)):
-            parts.extend(part)
         if isinstance(part, basestring):
-            parts.append(part)
+            
+            if part.startswith('~'):
+                # we have a tild path.
+                if part[1] == '/':
+                    path = py_expanduser('~')
+                    # we need to get a path without ~/ 
+                    path += part[2:]
+                else:
+                    user, part = part.split('/', 1)
+                    
+                path = py_expanduser()
+                    
+                            
+                        
+                    
     
-    #print inputs
-    return py_join(*parts)
+    
+    #parts = []
+    
+    #for part in inputs:
+        
+        #if isinstance(part, (list, tuple)):
+            #parts.extend(part)
+        #if isinstance(part, basestring):
+            #parts.append(part)
+    
+    
+    #return py_join(*parts)
     
 
 def make_dir_p(path):
