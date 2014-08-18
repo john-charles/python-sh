@@ -12,42 +12,36 @@ from os.path import (
 class FSException(Exception):
     pass
 
-def join(*inputs):
-    # super procedural, because this utility should
-    # be available to people doing low level work.
-    path = ""
+def join_listlike(list_like):
     
-    for part in inputs:
-        if isinstance(part, basestring):
-            
-            if part.startswith('~'):
-                # we have a tild path.
-                if part[1] == '/':
-                    path = py_expanduser('~')
-                    # we need to get a path without ~/ 
-                    path += part[2:]
-                else:
-                    user, part = part.split('/', 1)
-                    
-                path = py_expanduser()
-                    
-                            
-                        
-                    
-    
-    
-    #parts = []
-    
-    #for part in inputs:
+    def trans(element):
         
-        #if isinstance(part, (list, tuple)):
-            #parts.extend(part)
-        #if isinstance(part, basestring):
-            #parts.append(part)
+        if element.startswith('/'):
+            element = element[1:]
+        if element.endswith('/'):
+            element = element[:-1]
+
+        return element
+
+    converted = []
+    for part in list_like:
+
+        if isinstance(part, (list, tuple)):
+            part = join_listlike(part)
+
+        if isinstance(part, basestring):
+            converted.append(trans(part))
+        
+    path = '/'.join(converted)
     
-    
-    #return py_join(*parts)
-    
+    if not path.startswith('/'):
+        return '/' + path
+    else:
+        return path
+
+
+def join(*inputs):
+    return join_listlike(inputs)
 
 def make_dir_p(path):
     
