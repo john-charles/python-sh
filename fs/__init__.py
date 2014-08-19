@@ -30,11 +30,16 @@ def join_listlike(list_like):
             part = join_listlike(part)
 
         if isinstance(part, basestring):
-            converted.append(trans(part))
+            if part == '~':
+                converted = []
+                converted.append(py_expanduser('~'))
+            else:
+                converted.append(trans(part))
         
     path = '/'.join(converted)
     
-    if not path.startswith('/'):
+    
+    if not path.startswith('/') and not path[1] == ':':
         return '/' + path
     else:
         return path
