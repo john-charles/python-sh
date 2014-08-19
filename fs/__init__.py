@@ -23,7 +23,16 @@ def join_listlike(list_like):
 
         return element
 
+    def expand_tild(part):
+        
+        expanded_part = py_expanduser(part)
+        if os.path.sep != '/':
+            expanded_part = expanded_part.replace('\\','/')
+        
+        return [expanded_part]
+
     converted = []
+
     for part in list_like:
 
         if isinstance(part, (list, tuple)):
@@ -31,11 +40,7 @@ def join_listlike(list_like):
 
         if isinstance(part, basestring):
             if part.startswith('~'):
-                converted = []
-                expanded_part = py_expanduser(part)
-                if os.path.sep != '/':
-                    expanded_part = expanded_part.replace('\\','/')
-                converted.append(expanded_part)
+                converted = expand_tild(part)
             else:
                 converted.append(trans(part))
         
