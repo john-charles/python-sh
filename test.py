@@ -36,6 +36,15 @@ class Test_FS_A_Really_Simple_Wrapper(unittest.TestCase):
         
         path = fs('join', '~', 'Desktop')
         self.assertEqual(path, expanduser('~') + '/Desktop')
+
+    def test_it_can_resolve_a_tild_username(self):
+        
+        path = fs('join', '~some_user', 'Desktop')
+        
+        user_dir = os.path.expanduser('~')
+        user_dir = os.path.dirname(user_dir)
+
+        self.assertEqual(path, user_dir + "/some_user/Desktop")
         
 #   def test_it_joins_complex_paths(self):
 #       

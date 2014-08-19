@@ -30,9 +30,12 @@ def join_listlike(list_like):
             part = join_listlike(part)
 
         if isinstance(part, basestring):
-            if part == '~':
+            if part.startswith('~'):
                 converted = []
-                converted.append(py_expanduser('~'))
+                expanded_part = py_expanduser(part)
+                if os.path.sep != '/':
+                    expanded_part = expanded_part.replace('\\','/')
+                converted.append(expanded_part)
             else:
                 converted.append(trans(part))
         
