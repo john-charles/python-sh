@@ -50,6 +50,15 @@ class Test_FS_A_Really_Simple_Wrapper(unittest.TestCase):
         path = fs('join', '/home/$USER/Desktop')
 
         self.assertEqual(path, '/home/TestUser/Desktop')
+
+    def test_it_can_expand_several_environment_variables(self):
+
+        os.environ['USER'] = "TestUser"
+        os.environ['OTHER'] = "OtherThing"
+        path = fs('join', '/home/$USER/Desktop/$OTHER')
+
+        self.assertEqual(path, '/home/TestUser/Desktop/OtherThing')
+    
         
 #   def test_it_joins_complex_paths(self):
 #       
