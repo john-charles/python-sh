@@ -1,6 +1,6 @@
 __all__ = ['fs', 'join', 'save', 'load', 'exists', 'FSException']
 
-import os
+import os, re
 from os.path import (
     join as py_join,
     isdir as py_isdir,
@@ -31,6 +31,25 @@ def join_listlike(list_like):
         
         return [expanded_part]
 
+    def expand_env(part):
+        result = []
+        parts = re.split(r'(\$[A-Z_]+)', part)
+
+        for part in parts:
+            
+            part = part.strip()
+
+            if part.startswith('$'):
+                try:
+                    result.append(os.environ[part[1:]])
+                except KeyError:
+                    print "key error", part[1:]
+                    result.append(part)
+            else:
+                result.append(part)
+
+        return "".join(result)
+
     converted = []
 
     for part in list_like:
@@ -39,7 +58,9 @@ def join_listlike(list_like):
             part = join_listlike(part)
 
         if isinstance(part, basestring):
-            if part.startswith('~'):
+            if part.count('$'):
+                converted.append(expand_env(part))
+            elif part.startswith('~'):
                 converted = expand_tild(part)
             else:
                 converted.append(trans(part))

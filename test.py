@@ -11,7 +11,9 @@ class Test_FS_A_Really_Simple_Wrapper(unittest.TestCase):
     
     def setUp(self):        
         self.test_root = tempfile.mkdtemp()
-
+        self.user_dir = os.path.expanduser('~')
+        self.user_dir = os.path.dirname(self.user_dir)     
+    
     def test_it_joins_two_strings(self):
         
         path = fs('join', '/home','user')
@@ -41,10 +43,13 @@ class Test_FS_A_Really_Simple_Wrapper(unittest.TestCase):
         
         path = fs('join', '~some_user', 'Desktop')
         
-        user_dir = os.path.expanduser('~')
-        user_dir = os.path.dirname(user_dir)
+        self.assertEqual(path, self.user_dir + "/some_user/Desktop")
 
-        self.assertEqual(path, user_dir + "/some_user/Desktop")
+    def test_it_can_expand_environment_variables(self):
+        os.environ['USER'] = "TestUser"
+        path = fs('join', '/home/$USER/Desktop')
+
+        self.assertEqual(path, '/home/TestUser/Desktop')
         
 #   def test_it_joins_complex_paths(self):
 #       
