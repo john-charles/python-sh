@@ -10,6 +10,13 @@ from os.path import (
 from SHException import SHException
 from join_listlike import join_listlike
 
+def change_dir(options, arguments):    
+    
+    path = join_listlike({}, arguments)
+    os.chdir(path)
+    
+    
+
 def make_dir_p(options, arguments):
     
     if 'parents' in options and options['parents']:

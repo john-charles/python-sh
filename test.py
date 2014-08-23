@@ -113,6 +113,21 @@ class TestBasicDirectoryOperations(unittest.TestCase):
         
         self.assertFalse(exists(test_file))
         
+    def test_it_manages_current_dir(self):
+        
+        sh("cd", self.test_root)
+        self.assertEqual(self.test_root, os.getcwd())
+        
+        
+    #def test_it_can_recursive_remove(self):        
+        
+        #deep_path = sh("join", self.test_root, "d1", "d2", "d3")
+        
+        #sh("mkdir -p", deep_path)        
+        #self.assertTrue(exists(deep_path))
+        
+        #sh("rm -r", self.test_root, deep_path)        
+        #self.assertFalse(exists(deep_path))
         
             
         
