@@ -3,6 +3,7 @@
 import unittest, tempfile
 
 import os
+from getpass import getuser
 from os.path import join, exists, expanduser
 
 from fs import fs, save, load, exists as fs_exists, FSException
@@ -41,9 +42,8 @@ class Test_FS_A_Really_Simple_Wrapper(unittest.TestCase):
 
     def test_it_can_resolve_a_tild_username(self):
         
-        path = fs('join', '~some_user', 'Desktop')
-        
-        self.assertEqual(path, self.user_dir + "/some_user/Desktop")
+        path = fs('join', '~' + getuser(), 'Desktop')        
+        self.assertEqual(path, self.user_dir + "/" + getuser() + "/Desktop")
 
     def test_it_can_expand_environment_variables(self):
         os.environ['USER'] = "TestUser"
