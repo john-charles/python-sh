@@ -1,0 +1,2 @@
+class SHException(Exception):
+    pass

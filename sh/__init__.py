@@ -1,86 +1,18 @@
-__all__ = ['fs', 'join', 'save', 'load', 'exists', 'FSException']
+__all__ = ['sh', 'SHException']
 
 import os, re
+
+from SHException import SHException
+from join_listlike import join_listlike
+
 from os.path import (
     join as py_join,
     isdir as py_isdir,
-    exists as py_exists,
-    expanduser as py_expanduser
+    exists as py_exists
 )
 
-class SHException(Exception):
-    pass
 
-def join_listlike(options, list_like):
-    
-    def trans(element):
-        
-        if element.startswith('/'):
-            element = element[1:]
-        if element.endswith('/'):
-            element = element[:-1]
 
-        return element
-
-    def expand_tild(part):
-        
-        expanded_part = py_expanduser(part)
-        if os.path.sep != '/':
-            expanded_part = expanded_part.replace('\\','/')
-        
-        return [expanded_part]
-
-    def expand_env(part):
-        result = []
-        parts = re.split(r'(\$[A-Z_]+)', part)
-
-        for part in parts:
-            
-            part = part.strip()
-
-            if part.startswith('$'):
-                try:
-                    result.append(os.environ[part[1:]])
-                except KeyError:
-                    print "key error", part[1:]
-                    result.append(part)
-            else:
-                result.append(part)
-
-        return "".join(result)
-
-    converted = []
-
-    for part in list_like:
-
-        if isinstance(part, (list, tuple)):
-            part = join_listlike(options, part)
-
-        if isinstance(part, basestring):
-            if part.count('$'):
-                converted.append(expand_env(part))
-            elif part.startswith('~'):
-                converted = expand_tild(part)
-            else:
-                converted.append(trans(part))
-    
-    
-    if 'as_list' in options and  options['as_list']:
-        result = []
-        for part in converted:
-            for sub_part in part.split('/'):
-                if part:
-                    result.append(sub_part)
-                    
-        return result
-            
-    path = '/'.join(converted)
-    
-    
-    if not path.startswith('/') and not path[1] == ':':
-        return '/' + path
-    else:
-        return path
     
     
 def make_dir_p(options, arguments):
