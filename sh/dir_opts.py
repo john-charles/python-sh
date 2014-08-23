@@ -31,3 +31,7 @@ def make_dir_p(options, arguments):
             os.mkdir(path)
         except Exception, e:
             raise SHException(e.message)
+        
+def remove_rf(options, arguments):
+    
+    pass

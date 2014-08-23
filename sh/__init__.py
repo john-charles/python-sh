@@ -4,7 +4,7 @@ import os, re
 
 from SHException import SHException
 from join_listlike import join_listlike
-from dir_opts import make_dir_p
+from dir_opts import make_dir_p, remove_rf
         
         
 def save(*args, **kw):
@@ -28,9 +28,6 @@ def load(*path, **kw):
     return content
     
     
-
-def exists(*args):
-    return py_exists(join(*args))
 
 OT_FLAG = 'flag'
 

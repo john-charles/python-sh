@@ -91,6 +91,16 @@ class TestBasicDirectoryOperations(unittest.TestCase):
         
         sh("mkdir -p", self.test_root, "test_dir", "target_dir")
         self.assertTrue(exists(join(self.test_root, "test_dir", "target_dir")))
+        
+    def test_throws_exception_when_file_exists_as_parent(self):
+        
+        test_dir = join(self.test_root, "test_dir")
+        open(test_dir, "wb").close()
+        
+        with self.assertRaises(SHException):
+            sh("mkdir -p", test_dir, "target_dir")
+        
+        self.assertFalse(exists(join(test_dir, "target_dir")))
             
         
         
