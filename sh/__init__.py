@@ -63,7 +63,11 @@ def join_listlike(options, list_like):
                 converted = expand_tild(part)
             else:
                 converted.append(trans(part))
-        
+    
+    
+    if 'as_list' in options and  options['as_list']:
+        return converted
+            
     path = '/'.join(converted)
     
     
@@ -71,24 +75,23 @@ def join_listlike(options, list_like):
         return '/' + path
     else:
         return path
-
-
-def join(*inputs):
-    return join_listlike(inputs)
-
-def make_dir_p(path):
     
-    path = join(*path)
     
-    whole = "/"    
-    for part in path.split('/'):
+def make_dir_p(options, arguments):
+    
+    path = join_listlike([],arguments)
+    
+    #path = join(*path)
+    
+    #whole = "/"    
+    #for part in path.split('/'):
         
-        whole = join(whole, part)
+        #whole = join(whole, part)
         
-        if not py_exists(whole):
-            os.mkdir(whole)
-        if not py_isdir(whole):
-            raise FSException("File exists at %s" % whole) 
+        #if not py_exists(whole):
+            #os.mkdir(whole)
+        #if not py_isdir(whole):
+            #raise FSException("File exists at %s" % whole) 
         
         
 def save(*args, **kw):
@@ -116,15 +119,57 @@ def load(*path, **kw):
 def exists(*args):
     return py_exists(join(*args))
 
+OT_FLAG = 'flag'
+
+def option(shortcut, name, opt_type, message):
+    
+    def parse(string):
+        
+        if string.startswith("--%s" % name):
+            if opt_type == OT_FLAG:
+                return name, True
+        
+        if string.startswith('-') and not string.startswith('--'):
+            if shortcut in string:
+                return name, True
+            
+        return name, False
+    
+    return parse
+
+def options(*options):
+    
+    def parse(args):
+        
+        resovled_options = {}
+        
+        for option in options:
+            
+            for string in args:
+                
+                name, value = option(string)
+                if name in resovled_options:
+                    raise Exception("Option %s specified multiple times" % name)                
+                
+                resovled_options[name] = value
+                
+        return resovled_options
+            
+    return parse
+
 COMMAND_MAP = {
-    "join": join_listlike
+    "join": (join_listlike, options(
+        option("l", "as_list", OT_FLAG, "Specifies that the path should not be joined")
+    )),
+    "mkdir": (make_dir_p, options())
 }
+
 
 def parse_cmd(cmd):
     
     args = cmd.split()
-    options = args[1:]
-    cmd = COMMAND_MAP[args[0]]
+    cmd, options = COMMAND_MAP[args[0]]
+    options = options(args[1:])
     
     return cmd, options    
 

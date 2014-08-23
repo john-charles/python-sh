@@ -59,16 +59,22 @@ class TestJoiningAndManipulatingPaths(unittest.TestCase):
 
         self.assertEqual(path, '/home/TestUser/Desktop/OtherThing')
         
+    def test_it_returns_a_list_with_the_l_options(self):
+        
+        parts = sh("join -l", "a", "b", "c")
+        print "parts: ", repr(parts)
+        self.assertTrue(isinstance(parts, list))
+        
         
 class TestBasicDirectoryOperations(unittest.TestCase):
     
     def setUp(self):        
         self.test_root = tempfile.mkdtemp()
         
-    #def test_it_can_create_a_directory(self):
+    def test_it_can_create_a_directory(self):
         
-        #sh("mkdir", self.test_root, "test_dir")        
-        #self.assertTrue(exists(join(self.test_root, "test_dir")))
+        sh("mkdir", self.test_root, "test_dir")        
+        self.assertTrue(exists(join(self.test_root, "test_dir")))
         
         
     
