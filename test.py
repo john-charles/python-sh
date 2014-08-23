@@ -101,6 +101,19 @@ class TestBasicDirectoryOperations(unittest.TestCase):
             sh("mkdir -p", test_dir, "target_dir")
         
         self.assertFalse(exists(join(test_dir, "target_dir")))
+        
+    def test_it_can_remove_a_file(self):
+        
+        test_file = join(self.test_root, "test_file.bin")
+        
+        open(test_file, "wb")        
+        self.assertTrue(exists(join(self.test_root, "test_file.bin")))
+        
+        sh("rm", test_file)
+        
+        self.assertFalse(exists(test_file))
+        
+        
             
         
         

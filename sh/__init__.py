@@ -73,7 +73,8 @@ COMMAND_MAP = {
     )),
     "mkdir": (make_dir_p, options(
         option("p", "parents", OT_FLAG, "Specifies that parent directories should be created if they don't exist.")
-    ))
+    )),
+    "rm": (remove_rf, options())
 }
 
 

@@ -34,4 +34,5 @@ def make_dir_p(options, arguments):
         
 def remove_rf(options, arguments):
     
-    pass
+    path = join_listlike({}, arguments)
+    os.remove(path)
