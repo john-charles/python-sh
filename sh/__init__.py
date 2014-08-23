@@ -66,7 +66,13 @@ def join_listlike(options, list_like):
     
     
     if 'as_list' in options and  options['as_list']:
-        return converted
+        result = []
+        for part in converted:
+            for sub_part in part.split('/'):
+                if part:
+                    result.append(sub_part)
+                    
+        return result
             
     path = '/'.join(converted)
     
@@ -79,7 +85,8 @@ def join_listlike(options, list_like):
     
 def make_dir_p(options, arguments):
     
-    path = join_listlike([],arguments)
+    path = join_listlike({},arguments)    
+    os.mkdir(path)
     
     #path = join(*path)
     

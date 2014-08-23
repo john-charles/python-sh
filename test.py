@@ -62,9 +62,16 @@ class TestJoiningAndManipulatingPaths(unittest.TestCase):
     def test_it_returns_a_list_with_the_l_options(self):
         
         parts = sh("join -l", "a", "b", "c")
-        print "parts: ", repr(parts)
-        self.assertTrue(isinstance(parts, list))
         
+        self.assertTrue(isinstance(parts, list))
+        self.assertEqual(3, len(parts))
+        
+    def test_the_l_option_even_splits_inner(self):
+        
+        parts = sh("join -l", "a", "b/c", "d")
+        
+        self.assertTrue(isinstance(parts, list))
+        self.assertEqual(len(parts), 4)
         
 class TestBasicDirectoryOperations(unittest.TestCase):
     
