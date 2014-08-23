@@ -87,6 +87,11 @@ class TestBasicDirectoryOperations(unittest.TestCase):
         with self.assertRaises(SHException):            
             sh("mkdir", self.test_root, "test_dir", "target_dir")
             
+    def test_has_a_p_flag_which_creates_subdirs(self):
+        
+        sh("mkdir -p", self.test_root, "test_dir", "target_dir")
+        self.assertTrue(exists(join(self.test_root, "test_dir", "target_dir")))
+            
         
         
     
