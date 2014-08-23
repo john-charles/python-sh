@@ -85,23 +85,28 @@ def join_listlike(options, list_like):
     
 def make_dir_p(options, arguments):
     
-    path = join_listlike({},arguments)
-    try:
-        os.mkdir(path)
-    except Exception, e:
-        raise SHException(e.message)
-    
-    #path = join(*path)
-    
-    #whole = "/"    
-    #for part in path.split('/'):
+    if 'parents' in options and options['parents']:
         
-        #whole = join(whole, part)
+        whole = ""
         
-        #if not py_exists(whole):
-            #os.mkdir(whole)
-        #if not py_isdir(whole):
-            #raise FSException("File exists at %s" % whole) 
+        for part in join_listlike({"as_list": True}, arguments):
+            whole += "/%s" % part
+            
+            if not py_exists(whole):
+                os.mkdir(whole)
+            if not py_isdir(whole):
+                raise SHException("File exists at %s" % whole)
+        
+    else:
+        
+        path = join_listlike({},arguments)
+        try:
+            os.mkdir(path)
+        except Exception, e:
+            raise SHException(e.message)
+    
+    
+    
         
         
 def save(*args, **kw):
@@ -169,9 +174,11 @@ def options(*options):
 
 COMMAND_MAP = {
     "join": (join_listlike, options(
-        option("l", "as_list", OT_FLAG, "Specifies that the path should not be joined")
+        option("l", "as_list", OT_FLAG, "Specifies that the path should not be joined.")
     )),
-    "mkdir": (make_dir_p, options())
+    "mkdir": (make_dir_p, options(
+        option("p", "parents", OT_FLAG, "Specifies that parent directories should be created if they don't exist.")
+    ))
 }
 
 
