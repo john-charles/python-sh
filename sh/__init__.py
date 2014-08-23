@@ -118,7 +118,7 @@ def exists(*args):
     return py_exists(join(*args))
 
 
-def fs(cmd, *paths):
+def sh(cmd, *paths):
     if cmd == "join":
         return join(*paths)
     
