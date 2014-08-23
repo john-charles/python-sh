@@ -8,7 +8,7 @@ from os.path import (
     expanduser as py_expanduser
 )
 
-class FSException(Exception):
+class SHException(Exception):
     pass
 
 def join_listlike(options, list_like):
@@ -85,8 +85,11 @@ def join_listlike(options, list_like):
     
 def make_dir_p(options, arguments):
     
-    path = join_listlike({},arguments)    
-    os.mkdir(path)
+    path = join_listlike({},arguments)
+    try:
+        os.mkdir(path)
+    except Exception, e:
+        raise SHException(e.message)
     
     #path = join(*path)
     

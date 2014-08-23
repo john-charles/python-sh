@@ -6,7 +6,7 @@ import os
 from getpass import getuser
 from os.path import join, exists, expanduser
 
-from sh import sh
+from sh import sh, SHException
 
 class TestJoiningAndManipulatingPaths(unittest.TestCase):
     
@@ -82,6 +82,11 @@ class TestBasicDirectoryOperations(unittest.TestCase):
         
         sh("mkdir", self.test_root, "test_dir")        
         self.assertTrue(exists(join(self.test_root, "test_dir")))
+        
+    def test_it_raises_when_a_path_doesnt_exist(self):        
+        with self.assertRaises(SHException):            
+            sh("mkdir", self.test_root, "test_dir", "target_dir")
+            
         
         
     
