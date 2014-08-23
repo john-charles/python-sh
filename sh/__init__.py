@@ -7,12 +7,11 @@ from os.path import (
     exists as py_exists,
     expanduser as py_expanduser
 )
-    
 
 class FSException(Exception):
     pass
 
-def join_listlike(list_like):
+def join_listlike(options, list_like):
     
     def trans(element):
         
@@ -55,7 +54,7 @@ def join_listlike(list_like):
     for part in list_like:
 
         if isinstance(part, (list, tuple)):
-            part = join_listlike(part)
+            part = join_listlike(options, part)
 
         if isinstance(part, basestring):
             if part.count('$'):
@@ -117,17 +116,22 @@ def load(*path, **kw):
 def exists(*args):
     return py_exists(join(*args))
 
+COMMAND_MAP = {
+    "join": join_listlike
+}
 
-def sh(cmd, *paths):
-    if cmd == "join":
-        return join(*paths)
+def parse_cmd(cmd):
     
-    if cmd == "exists":
-        return exists(*paths)
+    args = cmd.split()
+    options = args[1:]
+    cmd = COMMAND_MAP[args[0]]
+    
+    return cmd, options    
 
-    if cmd == "mkdir -p":
-        make_dir_p(paths)
+def sh(cmd, *arguments):
     
+    cmd, options = parse_cmd(cmd)
+    return cmd(options, arguments)
     
     
     
