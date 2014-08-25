@@ -89,12 +89,24 @@ class TestJoiningAndManipulatingPaths(unittest.TestCase):
         path = sh("join", "c:\\my_dir\\my_sub")
         self.assertEqual(path, "c:/my_dir/my_sub")
 
+    def test_it_joins_deep_paths_with_backslashes(self):
+
+        path = sh("join", "c:\\my_file", "a\\b\\c\\d")
+        self.assertEqual("c:/my_file/a/b/c/d", path)
+
 
         
 class TestBasicDirectoryOperations(unittest.TestCase):
     
     def setUp(self):
         self.test_root = tempfile.mkdtemp()
+
+    def test_it_knows_when_something_exists(self):
+        os.rmdir(self.test_root)
+
+        self.assertFalse(sh("exists", self.test_root))
+        self.assertEqual(sh("exists", self.test_root), exists(self.test_root))
+
         
     def test_it_can_create_a_directory(self):
         
@@ -109,6 +121,14 @@ class TestBasicDirectoryOperations(unittest.TestCase):
         
         sh("mkdir -p", self.test_root, "test_dir", "target_dir")
         self.assertTrue(exists(join(self.test_root, "test_dir", "target_dir")))
+
+    def test_it_can_recursively_create_dirs_with_weird_args(self):
+
+        test_dir = join("a", "b", "c", "d")
+        sh("mkdir -p", self.test_root, test_dir)
+
+        self.assertTrue(exists(sh('join', self.test_root, test_dir)))
+
         
     def test_throws_exception_when_file_exists_as_parent(self):
         
@@ -130,6 +150,18 @@ class TestBasicDirectoryOperations(unittest.TestCase):
         sh("rm", test_file)
         
         self.assertFalse(exists(test_file))
+
+    #def test_it_can_remove_a_file_recursively(self):
+
+        #test_dir = join("a", "b", "c", "d")
+        #sh("mkdir -p", self.test_root, test_dir)
+
+        #self.assertTrue(exists(test_dir))
+
+        #sh("cd", self.test_root)
+        #sh("rm -r", ".", test_dir)
+
+
         
     def test_it_manages_current_dir(self):
         
@@ -157,12 +189,6 @@ class TestBasicDirectoryOperations(unittest.TestCase):
         
 if __name__ == '__main__':
     unittest.main()
-        
-        
-        
-        
-        
-        
     
     
 

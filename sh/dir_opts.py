@@ -18,13 +18,13 @@ def change_dir(options, arguments):
     
 
 def make_dir_p(options, arguments):
-    
+    #print "arguments: ", arguments
     if 'parents' in options and options['parents']:
         
         whole = ""
 
         for part in join_listlike({"as_list": True}, arguments):
-            
+            #print "part, ", part, ", whole, ", whole
             if whole == "" and part[1] == ':':
                 whole = part
             else:
@@ -34,9 +34,6 @@ def make_dir_p(options, arguments):
                 os.mkdir(whole)
             if not py_isdir(whole):
                 raise SHException("File exists at %s" % whole)
-
-        print "whole: ", whole
-        
     else:
         
         path = join_listlike({},arguments)
