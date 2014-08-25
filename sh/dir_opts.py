@@ -22,14 +22,20 @@ def make_dir_p(options, arguments):
     if 'parents' in options and options['parents']:
         
         whole = ""
-        
+
         for part in join_listlike({"as_list": True}, arguments):
-            whole += "/%s" % part
+            
+            if whole == "" and part[1] == ':':
+                whole = part
+            else:
+                whole += "/%s" % part
             
             if not py_exists(whole):
                 os.mkdir(whole)
             if not py_isdir(whole):
                 raise SHException("File exists at %s" % whole)
+
+        print "whole: ", whole
         
     else:
         

@@ -91,50 +91,50 @@ class TestJoiningAndManipulatingPaths(unittest.TestCase):
 
 
         
-#class TestBasicDirectoryOperations(unittest.TestCase):
+class TestBasicDirectoryOperations(unittest.TestCase):
     
-    #def setUp(self):
-        #self.test_root = tempfile.mkdtemp()
+    def setUp(self):
+        self.test_root = tempfile.mkdtemp()
         
-    #def test_it_can_create_a_directory(self):
+    def test_it_can_create_a_directory(self):
         
-        #sh("mkdir", self.test_root, "test_dir")
-        #self.assertTrue(exists(join(self.test_root, "test_dir")))
+        sh("mkdir", self.test_root, "test_dir")
+        self.assertTrue(exists(join(self.test_root, "test_dir")))
         
-    #def test_it_raises_when_a_path_doesnt_exist(self):
-        #with self.assertRaises(SHException):
-            #sh("mkdir", self.test_root, "test_dir", "target_dir")
+    def test_it_raises_when_a_path_doesnt_exist(self):
+        with self.assertRaises(SHException):
+            sh("mkdir", self.test_root, "test_dir", "target_dir")
             
-    #def test_has_a_p_flag_which_creates_subdirs(self):
+    def test_has_a_p_flag_which_creates_subdirs(self):
         
-        #sh("mkdir -p", self.test_root, "test_dir", "target_dir")
-        #self.assertTrue(exists(join(self.test_root, "test_dir", "target_dir")))
+        sh("mkdir -p", self.test_root, "test_dir", "target_dir")
+        self.assertTrue(exists(join(self.test_root, "test_dir", "target_dir")))
         
-    #def test_throws_exception_when_file_exists_as_parent(self):
+    def test_throws_exception_when_file_exists_as_parent(self):
         
-        #test_dir = join(self.test_root, "test_dir")
-        #open(test_dir, "wb").close()
+        test_dir = join(self.test_root, "test_dir")
+        open(test_dir, "wb").close()
         
-        #with self.assertRaises(SHException):
-            #sh("mkdir -p", test_dir, "target_dir")
+        with self.assertRaises(SHException):
+            sh("mkdir -p", test_dir, "target_dir")
         
-        #self.assertFalse(exists(join(test_dir, "target_dir")))
+        self.assertFalse(exists(join(test_dir, "target_dir")))
         
-    #def test_it_can_remove_a_file(self):
+    def test_it_can_remove_a_file(self):
         
-        #test_file = join(self.test_root, "test_file.bin")
+        test_file = join(self.test_root, "test_file.bin")
         
-        #open(test_file, "wb")
-        #self.assertTrue(exists(join(self.test_root, "test_file.bin")))
+        open(test_file, "wb")
+        self.assertTrue(exists(join(self.test_root, "test_file.bin")))
         
-        #sh("rm", test_file)
+        sh("rm", test_file)
         
-        #self.assertFalse(exists(test_file))
+        self.assertFalse(exists(test_file))
         
-    #def test_it_manages_current_dir(self):
+    def test_it_manages_current_dir(self):
         
-        #sh("cd", self.test_root)
-        #self.assertEqual(self.test_root, os.getcwd())
+        sh("cd", self.test_root)
+        self.assertEqual(self.test_root, os.getcwd())
 
     # -------------- OLD --------------------
         
