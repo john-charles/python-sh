@@ -73,6 +73,11 @@ class TestJoiningAndManipulatingPaths(unittest.TestCase):
         self.assertTrue(isinstance(parts, list))
         self.assertEqual(len(parts), 4)
         
+    def test_joining_a_dot_path(self):
+        
+        path = sh("join", "./abc", "def")
+        self.assertEqual(path, "./abc/dev")
+        
 class TestBasicDirectoryOperations(unittest.TestCase):
     
     def setUp(self):        

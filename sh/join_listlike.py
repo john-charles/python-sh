@@ -68,7 +68,7 @@ def join_listlike(options, list_like):
     path = '/'.join(converted)
     
     
-    if not path.startswith('/') and not path[1] == ':':
+    if not path.startswith('/') and not path[1] == ':' and not path.startswith("."):
         return '/' + path
     else:
         return path
