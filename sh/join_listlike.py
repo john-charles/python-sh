@@ -48,7 +48,10 @@ def join_listlike(options, list_like):
             part = join_listlike(options, part)
 
         if isinstance(part, basestring):
-            if part.count('$'):
+            print "part: ", part
+            if part.count('\\'):
+                converted.extend(join_listlike({"as_list": True}, part.split('\\')))
+            elif part.count('$'):
                 converted.append(expand_env(part))
             elif part.startswith('~'):
                 converted = expand_tild(part)
