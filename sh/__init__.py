@@ -4,7 +4,7 @@ import os, re
 
 from SHException import SHException
 from join_listlike import join_listlike
-from dir_opts import make_dir_p, remove_rf, change_dir
+from dir_opts import make_dir_p, remove_rf, change_dir, file_exists
         
         
 def save(*args, **kw):
@@ -77,7 +77,8 @@ COMMAND_MAP = {
     "cd": (change_dir, options()),
     "rm": (remove_rf, options(
         option("r", "recursive", OT_FLAG, "Remove directories recursively")
-    ))
+    )),
+    "exists": (file_exists, options())
 }
 
 
