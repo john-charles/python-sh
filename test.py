@@ -156,7 +156,7 @@ class TestBasicDirectoryOperations(unittest.TestCase):
         #test_dir = join("a", "b", "c", "d")
         #sh("mkdir -p", self.test_root, test_dir)
 
-        #self.assertTrue(exists(test_dir))
+        #self.assertTrue(sh("exists", self.test_root, test_dir))
 
         #sh("cd", self.test_root)
         #sh("rm -r", ".", test_dir)

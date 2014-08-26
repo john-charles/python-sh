@@ -15,11 +15,6 @@ def change_dir(options, arguments):
     path = join_listlike({}, arguments)
     os.chdir(path)
     
-def file_exists(options, arguments):
-    
-    path = join_listlike({}, arguments)
-    return py_exists(path)
-
 def make_dir_p(options, arguments):
     #print "arguments: ", arguments
     if 'parents' in options and options['parents']:

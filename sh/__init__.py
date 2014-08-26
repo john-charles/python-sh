@@ -4,7 +4,8 @@ import os, re
 
 from SHException import SHException
 from join_listlike import join_listlike
-from dir_opts import make_dir_p, remove_rf, change_dir, file_exists
+from dir_opts import make_dir_p, remove_rf, change_dir
+from file_stats import file_exists
         
         
 def save(*args, **kw):
