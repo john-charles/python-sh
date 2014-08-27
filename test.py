@@ -94,6 +94,23 @@ class TestJoiningAndManipulatingPaths(unittest.TestCase):
         path = sh("join", "c:\\my_file", "a\\b\\c\\d")
         self.assertEqual("c:/my_file/a/b/c/d", path)
 
+    def test_it_doesnt_butcher_paths(self):
+        raw_path = "c:/users/jcsoko~1/appdata/local/temp/tmpkfex8c/test_file.bin"
+
+        path = sh("join", raw_path)
+        self.assertEqual(raw_path, path)
+
+
+class TestBasicStasticalFunctions(unittest.TestCase):
+
+    def setUp(self):
+        self.test_root = tempfile.mkdtemp()
+
+    
+    def test_it_knows_if_something_is_a_file_or_a_dir(self):
+        
+        self.assertTrue(sh("isdir", self.test_root))
+        self.assertFalse(sh("isfile", self.test_root))
 
         
 class TestBasicDirectoryOperations(unittest.TestCase):
@@ -150,6 +167,19 @@ class TestBasicDirectoryOperations(unittest.TestCase):
         sh("rm", test_file)
         
         self.assertFalse(exists(test_file))
+
+    def test_it_can_remove_a_single_empty_directory(self):
+
+        target = "target"
+
+        sh("mkdir", self.test_root, target)
+        self.assertTrue(sh("isdir", self.test_root, target))
+        self.assertTrue(sh("exists", self.test_root, target))
+
+        sh("rm", self.test_root, target)
+        self.assertFalse(sh("exists", self.test_root, target))
+
+
 
     #def test_it_can_remove_a_file_recursively(self):
 

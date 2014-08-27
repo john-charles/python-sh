@@ -1,11 +1,14 @@
 
 import os
+from args import args
 
 from os.path import (
     join as py_join,
     isdir as py_isdir,
     exists as py_exists
 )
+
+from file_stats import file_isdir
 
 from SHException import SHException
 from join_listlike import join_listlike
@@ -43,4 +46,8 @@ def make_dir_p(options, arguments):
 def remove_rf(options, arguments):
     
     path = join_listlike({}, arguments)
-    os.remove(path)
+
+    if file_isdir({}, args(path)):
+        os.rmdir(path)
+    else:
+        os.remove(path)

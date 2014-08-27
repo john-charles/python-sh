@@ -14,3 +14,13 @@ def file_exists(options, arguments):
     
     path = join_listlike({}, arguments)
     return py_exists(path)
+
+def file_isdir(options, arguments):
+    
+    path = join_listlike({}, arguments)
+    return os.path.isdir(path)
+
+def file_isfile(options, arguments):
+
+    path = join_listlike({}, arguments)
+    return os.path.isfile(path)
