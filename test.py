@@ -181,22 +181,28 @@ class TestBasicDirectoryOperations(unittest.TestCase):
 
 
 
-    #def test_it_can_remove_a_file_recursively(self):
+    def test_it_can_remove_a_file_recursively(self):
 
-        #test_dir = join("a", "b", "c", "d")
-        #sh("mkdir -p", self.test_root, test_dir)
+        test_dir = join("a", "b", "c", "d")
+        sh("mkdir -p", self.test_root, test_dir)
 
-        #self.assertTrue(sh("exists", self.test_root, test_dir))
+        self.assertTrue(sh("exists", self.test_root, test_dir))
 
-        #sh("cd", self.test_root)
-        #sh("rm -r", ".", test_dir)
+        sh("cd", self.test_root)
+        sh("rm -r", ".", test_dir)
 
-
+        self.assertFalse(sh("exists", self.test_root, test_dir))
         
     def test_it_manages_current_dir(self):
         
         sh("cd", self.test_root)
         self.assertEqual(self.test_root, os.getcwd())
+
+    def test_it_can_list_the_content_of_a_directory(self):
+
+        content = sh("ls", self.test_root)
+        self.assertTrue(len(content) == 0)
+
 
     # -------------- OLD --------------------
         

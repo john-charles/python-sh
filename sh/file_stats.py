@@ -24,3 +24,9 @@ def file_isfile(options, arguments):
 
     path = join_listlike({}, arguments)
     return os.path.isfile(path)
+
+def file_listdir(options, arguments):
+
+    path = join_listlike({}, arguments)
+    return os.listdir(path)
+
