@@ -1,5 +1,5 @@
 
-import os
+import os, stat
 
 from os.path import (
     join as py_join,
@@ -34,3 +34,12 @@ def file_listdir(options, arguments):
     
     return os.listdir(path)
 
+def file_stat(options, arguments):
+    
+    path = join_listlike({}, arguments)
+    stat_res = os.stat(path)
+
+    if 'size' in options and options['size']:
+        return stat_res[stat.ST_SIZE]
+
+    return stat_res

@@ -112,6 +112,14 @@ class TestBasicStasticalFunctions(unittest.TestCase):
         self.assertTrue(sh("isdir", self.test_root))
         self.assertFalse(sh("isfile", self.test_root))
 
+    def test_it_knows_how_big_a_file_is(self):
+        content = "Test file content"
+        sh("save", self.test_root, "test_file.txt", content)
+        
+        size = sh("stat -s", self.test_root, "test_file.txt")
+
+        self.assertEquals(len(content), size)
+
         
 class TestBasicDirectoryOperations(unittest.TestCase):
     

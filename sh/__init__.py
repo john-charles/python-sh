@@ -5,8 +5,8 @@ import os, re
 from SHException import SHException
 from join_listlike import join_listlike
 from dir_opts import make_dir_p, remove_rf, change_dir
-from file_stats import file_exists, file_isdir, file_isfile, file_listdir
 from file_opts import save_file, load_file
+from file_stats import file_exists, file_isdir, file_isfile, file_listdir, file_stat
         
         
 OT_FLAG = 'flag'
@@ -63,7 +63,10 @@ COMMAND_MAP = {
     "isfile": (file_isfile, options()),
     "ls":(file_listdir, options()),
     "save": (save_file, options()),
-    "load": (load_file, options())
+    "load": (load_file, options()),
+    "stat": (file_stat, options(
+        option("s", "size", OT_FLAG, "Return only the file's size")
+    ))
 }
 
 
