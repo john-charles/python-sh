@@ -6,30 +6,9 @@ from SHException import SHException
 from join_listlike import join_listlike
 from dir_opts import make_dir_p, remove_rf, change_dir
 from file_stats import file_exists, file_isdir, file_isfile, file_listdir
+from file_opts import save_file, load_file
         
         
-def save(*args, **kw):
-    
-    content = args[-1]
-    path = join(*args[:-1])
-    mode = kw.get('mode', 'wb')
-    
-    f = open(path, mode)
-    f.write(content)
-    f.close()
-    
-def load(*path, **kw):    
-    path = join(*path)
-    mode = kw.get('mode','rb')
-    
-    f = open(path, mode)
-    content = f.read()
-    f.close()
-    
-    return content
-    
-    
-
 OT_FLAG = 'flag'
 
 def option(shortcut, name, opt_type, message):
@@ -82,7 +61,9 @@ COMMAND_MAP = {
     "exists": (file_exists, options()),
     "isdir": (file_isdir, options()),
     "isfile": (file_isfile, options()),
-    "ls":(file_listdir, options())
+    "ls":(file_listdir, options()),
+    "save": (save_file, options()),
+    "load": (load_file, options())
 }
 
 

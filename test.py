@@ -227,9 +227,23 @@ class TestBasicDirectoryOperations(unittest.TestCase):
 
 class TestFileOperations(unittest.TestCase):
 
-    pass
+    def setUp(self):
+
+        self.test_root = tempfile.mkdtemp()
+
+    def test_it_can_write_to_a_file(self):
+        
+        content = "This is some file content"
+        sh("save", self.test_root, "test_file.txt", content)
+
+        with open(join(self.test_root, "test_file.txt"), 'rb') as file:
+            self.assertEqual(content, file.read())
 
 
+
+    #def test_it_can_load_from_a_file(self):
+
+    #   content = sh("load", self.test_root, "test_file.txt")
 
 if __name__ == '__main__':
     unittest.main()
