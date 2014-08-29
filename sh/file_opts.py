@@ -21,6 +21,11 @@ def load_file(options, arguments):
     
     mode = options.get('mode', 'rb')
     path = join_listlike({}, arguments)
+    
+    try:
 
-    with open(path, mode) as file:
-        return file.read()
+        with open(path, mode) as file:
+            return file.read()
+
+    except Exception, e:
+        raise SHException(e.message)
