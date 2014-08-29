@@ -251,7 +251,7 @@ class TestFileOperations(unittest.TestCase):
 
         self.assertEqual(sh("load", self.test_root, "test_file.txt"), content)
 
-    def test_it_raises_a_shell_exc_saving_to_a_file_with_missing_deep_paths(self):
+    def test_it_raises_a_shell_exc_reading_a_file_with_missing_deep_paths(self):
                                                                                    
         with self.assertRaises(SHException):
             sh("load", self.test_root, "missing", "test_file.txt")
