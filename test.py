@@ -241,9 +241,12 @@ class TestFileOperations(unittest.TestCase):
 
 
 
-    #def test_it_can_load_from_a_file(self):
+    def test_it_can_load_from_a_file(self):
+        
+        content = "Uber test content"
+        sh("save", self.test_root, "test_file.txt", content)
 
-    #   content = sh("load", self.test_root, "test_file.txt")
+        self.assertEqual(sh("load", self.test_root, "test_file.txt"), content)
 
 if __name__ == '__main__':
     unittest.main()

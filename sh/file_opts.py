@@ -11,12 +11,10 @@ def save_file(options, arguments):
     with open(path, mode) as file:
         file.write(arguments[-1])
     
-def load_file(*path, **kw):    
-    path = join(*path)
-    mode = kw.get('mode','rb')
+def load_file(options, arguments):
     
-    f = open(path, mode)
-    content = f.read()
-    f.close()
-    
-    return content
+    mode = options.get('mode', 'rb')
+    path = join_listlike({}, arguments)
+
+    with open(path, mode) as file:
+        return file.read()
