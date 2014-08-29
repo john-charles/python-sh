@@ -225,27 +225,12 @@ class TestBasicDirectoryOperations(unittest.TestCase):
         self.assertIn("test1", content)
         self.assertIn("test2", content)
 
+class TestFileOperations(unittest.TestCase):
+
+    pass
 
 
-    # -------------- OLD --------------------
-        
-        
-    #def test_it_can_recursive_remove(self):        
-        
-        #deep_path = sh("join", self.test_root, "d1", "d2", "d3")
-        
-        #sh("mkdir -p", deep_path)        
-        #self.assertTrue(exists(deep_path))
-        
-        #sh("rm -r", self.test_root, deep_path)        
-        #self.assertFalse(exists(deep_path))
-        
-            
-        
-        
-    
-        
-        
+
 if __name__ == '__main__':
     unittest.main()
     
