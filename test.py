@@ -203,6 +203,29 @@ class TestBasicDirectoryOperations(unittest.TestCase):
         content = sh("ls", self.test_root)
         self.assertTrue(len(content) == 0)
 
+    def test_it_can_list_a_dir_with_things(self):
+
+        sh("mkdir", self.test_root, "test1");
+        sh("mkdir", self.test_root, "test2");
+
+        content = sh("ls", self.test_root)
+        self.assertTrue(len(content) == 2)
+        self.assertIn("test1", content)
+        self.assertIn("test2", content)
+
+    def test_it_can_list_the_cwd(self):
+
+        sh("mkdir", self.test_root, "test1");
+        sh("mkdir", self.test_root, "test2");
+
+        sh("cd", self.test_root)
+
+        content = sh("ls")
+        self.assertTrue(len(content) == 2)
+        self.assertIn("test1", content)
+        self.assertIn("test2", content)
+
+
 
     # -------------- OLD --------------------
         

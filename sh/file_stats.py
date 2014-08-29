@@ -26,7 +26,11 @@ def file_isfile(options, arguments):
     return os.path.isfile(path)
 
 def file_listdir(options, arguments):
-
-    path = join_listlike({}, arguments)
+    
+    if len(arguments) == 0:
+        path = "."
+    else:
+        path = join_listlike({}, arguments)
+    
     return os.listdir(path)
 
